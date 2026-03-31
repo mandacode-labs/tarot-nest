@@ -71,6 +71,14 @@ spec:
                   name: {{ . }}
                   key: {{ $openaiApiKeyKey }}
             {{- end }}
+            {{- if and (not .Values.valkey.enabled) .Values.config.cache.valkey.password }}
+            - name: VALKEY_PASSWORD
+              value: {{ .Values.config.cache.valkey.password | quote }}
+            {{- end }}
+            {{- if .Values.valkey.enabled }}
+            - name: VALKEY_HOST
+              value: "{{ include "tarot-core.fullname" . }}-valkey"
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /health

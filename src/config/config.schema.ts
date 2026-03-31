@@ -12,6 +12,7 @@ export const configSchema = z.object({
     systemMessage: yamlSchema.shape.openai.shape.systemMessage,
   }),
   tarot: yamlSchema.shape.tarot,
+  cache: yamlSchema.shape.cache,
 });
 
 export type Config = z.infer<typeof configSchema>;

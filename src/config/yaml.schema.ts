@@ -70,6 +70,26 @@ export const yamlSchema = z.object({
         .default(keywordsDefault),
     })
     .default(tarotDefault),
+  cache: z
+    .object({
+      enabled: z.boolean().default(true),
+      ttl: z.number().int().positive().default(3600),
+      randomBucketSize: z.number().int().positive().default(10),
+      valkey: z
+        .object({
+          host: z.string().default('valkey'),
+          port: z.number().int().positive().default(6379),
+          password: z.string().optional(),
+          db: z.number().int().min(0).max(15).default(0),
+        })
+        .default({ host: 'valkey', port: 6379, db: 0 }),
+    })
+    .default({
+      enabled: true,
+      ttl: 3600,
+      randomBucketSize: 10,
+      valkey: { host: 'valkey', port: 6379, db: 0 },
+    }),
 });
 
 export type YamlConfig = z.infer<typeof yamlSchema>;

@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { validate } from './config/validate';
 import { AppController } from './app.controller';
 import { TarotModule } from './modules/tarot.module';
+import { ValkeyModule } from './modules/valkey.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { TarotModule } from './modules/tarot.module';
       validate: validate,
       isGlobal: true,
     }),
+    ValkeyModule,
     TarotModule,
   ],
   controllers: [AppController],

@@ -149,3 +149,19 @@ Migration selector labels
 {{- include "tarot-core.selectorLabels" . }}
 app.kubernetes.io/component: migration
 {{- end }}
+
+{{/*
+Valkey service labels
+*/}}
+{{- define "tarot-core.valkey.labels" -}}
+{{- include "tarot-core.labels" . }}
+app.kubernetes.io/component: valkey
+{{- end }}
+
+{{/*
+Valkey selector labels
+*/}}
+{{- define "tarot-core.valkey.selectorLabels" -}}
+{{- include "tarot-core.selectorLabels" . }}
+app.kubernetes.io/component: valkey
+{{- end }}
