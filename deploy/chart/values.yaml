@@ -41,6 +41,15 @@ config:
       today: "주어지는 카드에 대하여 오늘의 타로 메시지를 서술해줘.한국어로 서술해줘.적절한 조언이 담긴 메시지를 서술해줘.실제로 점술가가 말하는 것처럼 자연스럽게 설명해줘직접적인 사용자의 정보는 사용하지마.특수 문자 또한 사용하지마.카드는 영어로 읽고 방향은 정방향, 역방향을 사용해 (eg. Five of Wands)카드 설명시 카드의 영어이름을 말하고 정방향 또는 역방향의 의미를 알려줘어투는 차갑게 해줘."
       romance: "주어지는 카드에 대하여 로맨스 타로 메시지를 서술해줘.한국어로 서술해줘.적절한 조언이 담긴 메시지를 서술해줘.실제로 점술가가 말하는 것처럼 자연스럽게 설명해줘직접적인 사용자의 정보는 사용하지마.특수 문자 또한 사용하지마.카드는 영어로 읽고 방향은 정방향, 역방향을 사용해 (eg. Five of Wands)카드 설명시 카드의 영어이름을 말하고 정방향 또는 역방향의 의미를 알려줘어투는 차갑게 해줘."
       monthlyStudy: "주어지는 카드에 대하여 월간 공부 타로 메시지를 서술해줘.currentStateCard: 현재 상태에 대한 카드obstacleCard: 현재 상태의 장애물adviceCard: 앞으로의 조언한국어로 서술해줘.적절한 조언이 담긴 메시지를 서술해줘.실제로 점술가가 말하는 것처럼 자연스럽게 설명해줘직접적인 사용자의 정보는 사용하지마.특수 문자 또한 사용하지마.카드는 영어로 읽고 방향은 정방향, 역방향을 사용해 (eg. Five of Wands)카드 설명시 카드의 영어이름을 말하고 정방향 또는 역방향의 의미를 알려줘어투는 차갑게 해줘."
+  cache:
+    enabled: true
+    ttl: 3600
+    randomBucketSize: 10
+    valkey:
+      host: "valkey"
+      port: 6379
+      password: ""
+      db: 0
 
 # Database configuration
 database:
@@ -64,6 +73,19 @@ migration:
     pullPolicy: IfNotPresent
     pullSecrets:
       - name: "regcred"
+  resources:
+    limits:
+      cpu: 200m
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+# Internal Valkey deployment (set enabled: false to use external Valkey)
+valkey:
+  enabled: true
+  image: "valkey/valkey:8"
+  pullPolicy: IfNotPresent
   resources:
     limits:
       cpu: 200m
