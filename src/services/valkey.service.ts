@@ -49,8 +49,9 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
       this.logger.log(`Connected to Valkey at ${host}:${port}`);
     });
 
-    this.client.connect().catch((err) => {
-      this.logger.error(`Failed to connect to Valkey: ${err.message}`);
+    this.client.connect().catch((err: unknown) => {
+      const message = err instanceof Error ? err.message : String(err);
+      this.logger.error(`Failed to connect to Valkey: ${message}`);
       this.client = null;
     });
   }
