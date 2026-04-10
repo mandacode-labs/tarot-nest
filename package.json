@@ -38,7 +38,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^10.0.1",
     "@nestjs/cli": "^11.0.0",
-    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/schematics": "^11.0.10",
     "@nestjs/testing": "^11.1.17",
     "@types/express": "^5.0.0",
     "@types/ioredis": "^4.28.10",
