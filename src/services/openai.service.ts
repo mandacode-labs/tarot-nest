@@ -18,7 +18,7 @@ interface TarotMessageRequest {
 export class OpenAIService {
   private chatModel: ChatModel = 'gpt-4o-mini';
 
-  private openAI: OpenAI;
+  private openAI!: OpenAI;
   private openAIConfig: Config['openai'];
 
   constructor(private readonly config: ConfigService<Config, true>) {
