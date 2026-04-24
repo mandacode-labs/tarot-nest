@@ -23,7 +23,7 @@ export function loadYamlConfig(configPath?: string): YamlConfig {
     }
   } catch (err) {
     console.warn(
-      `Failed to load YAML config from ${path}. Using defaults. Error: ${err}`,
+      `Failed to load YAML config from ${path}. Using defaults. Error: ${String(err)}`,
     );
   }
 
