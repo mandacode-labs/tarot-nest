@@ -9,10 +9,6 @@ WORKDIR /app
 # Copy package.json and package-lock.json first for caching
 COPY package*.json ./
 
-# Copy Prisma config and schema before npm ci (postinstall needs them)
-COPY prisma.config.ts ./prisma.config.ts
-COPY prisma ./prisma
-
 # Install dependencies (including devDependencies for build process)
 RUN npm ci
 
@@ -36,13 +32,6 @@ COPY package*.json ./
 # Remove devDependencies to reduce final image size
 RUN npm prune --production
 
-# Copy Prisma Client
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-
-# Copy Prisma migrations
-COPY --from=builder /app/prisma ./prisma
-
 # =============================
 # 3. Final Runtime Stage
 # =============================
@@ -57,13 +46,6 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 COPY --from=pruner /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY package.json ./
-
-# Copy Prisma Client
-COPY --from=pruner /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=pruner /app/node_modules/@prisma ./node_modules/@prisma
-
-# Copy Prisma migrations
-COPY --from=pruner /app/prisma ./prisma
 
 # Change ownership of application files
 RUN chown -R appuser:appgroup /app

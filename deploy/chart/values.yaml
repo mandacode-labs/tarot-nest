@@ -51,36 +51,6 @@ config:
       password: ""
       db: 0
 
-# Database configuration
-database:
-  existingSecret: ""
-  existingSecretKeys:
-    username: "username"
-    password: "password"
-  host: "postgres"
-  port: 5432
-  dbName: "tarot"
-  sslMode: "require"
-  username: "postgres"
-  password: "postgres"
-
-# Database migration configuration
-migration:
-  enabled: true
-  image:
-    repository: "registry.example.com/tarot-core/migration"
-    tag: "latest"
-    pullPolicy: IfNotPresent
-    pullSecrets:
-      - name: "regcred"
-  resources:
-    limits:
-      cpu: 200m
-      memory: 256Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
-
 # Internal Valkey deployment (set enabled: false to use external Valkey)
 valkey:
   enabled: true

@@ -19,7 +19,7 @@ export function loadYamlConfig(configPath?: string): YamlConfig {
       typeof parsed === 'object' &&
       !Array.isArray(parsed)
     ) {
-      yamlConfig = parsed as Record<string, unknown>;
+      yamlConfig = parsed;
     }
   } catch (err) {
     console.warn(

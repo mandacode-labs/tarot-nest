@@ -28,8 +28,7 @@ jobs:
       # Images to build (REQUIRED)
       images: |
         [
-          {"name": "app", "dockerfile": "app.Dockerfile"},
-          {"name": "migration", "dockerfile": "mig.Dockerfile"}
+          {"name": "app", "dockerfile": "app.Dockerfile"}
         ]
       # Multiple images example:
       # images: |
