@@ -43,8 +43,7 @@ jobs:
       # Images to test (REQUIRED)
       images: |
         [
-          {"dockerfile": "app.Dockerfile"},
-          {"dockerfile": "mig.Dockerfile"}
+          {"dockerfile": "app.Dockerfile"}
         ]
       # Multiple images example:
       # images: |

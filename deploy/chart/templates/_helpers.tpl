@@ -60,39 +60,6 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Database secret name
-*/}}
-{{- define "tarot-core.databaseSecretName" -}}
-{{- if .Values.database.existingSecret }}
-{{- .Values.database.existingSecret }}
-{{- else }}
-{{- printf "%s-database" (include "tarot-core.fullname" .) }}
-{{- end }}
-{{- end }}
-
-{{/*
-Database username key
-*/}}
-{{- define "tarot-core.databaseUsernameKey" -}}
-{{- if .Values.database.existingSecret }}
-{{- include "tarot-core.secretKey" (dict "context" . "prefix" "database" "key" "username") }}
-{{- else }}
-{{- "username" }}
-{{- end }}
-{{- end }}
-
-{{/*
-Database password key
-*/}}
-{{- define "tarot-core.databasePasswordKey" -}}
-{{- if .Values.database.existingSecret }}
-{{- include "tarot-core.secretKey" (dict "context" . "prefix" "database" "key" "password") }}
-{{- else }}
-{{- "password" }}
-{{- end }}
-{{- end }}
-
-{{/*
 Get secret key with fallback to default
 Usage: {{ include "tarot-core.secretKey" (dict "context" $ "prefix" "config.openai" "key" "apiKey") }}
 */}}
@@ -132,22 +99,6 @@ App selector labels
 {{- define "tarot-core.app.selectorLabels" -}}
 {{- include "tarot-core.selectorLabels" . }}
 app.kubernetes.io/component: app
-{{- end }}
-
-{{/*
-Migration service labels
-*/}}
-{{- define "tarot-core.migration.labels" -}}
-{{- include "tarot-core.labels" . }}
-app.kubernetes.io/component: migration
-{{- end }}
-
-{{/*
-Migration selector labels
-*/}}
-{{- define "tarot-core.migration.selectorLabels" -}}
-{{- include "tarot-core.selectorLabels" . }}
-app.kubernetes.io/component: migration
 {{- end }}
 
 {{/*

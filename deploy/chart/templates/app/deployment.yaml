@@ -14,7 +14,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/db-secret: {{ include (print $.Template.BasePath "/db-secret.yaml") . | sha256sum }}
         checksum/config-secret: {{ include (print $.Template.BasePath "/config-secret.yaml") . | sha256sum }}
         checksum/image: {{ print .Values.app.image.repository .Values.app.image.tag | sha256sum }}
       labels:
@@ -46,21 +45,6 @@ spec:
               mountPath: /app/config
               readOnly: true
           env:
-            {{- $secretName := include "tarot-core.databaseSecretName" . }}
-            {{- $usernameKey := include "tarot-core.databaseUsernameKey" . }}
-            {{- $passwordKey := include "tarot-core.databasePasswordKey" . }}
-            - name: DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName }}
-                  key: {{ $usernameKey }}
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $secretName }}
-                  key: {{ $passwordKey }}
-            - name: DATABASE_URL
-              value: "postgresql://$(DB_USERNAME):$(DB_PASSWORD)@{{ .Values.database.host }}:{{ .Values.database.port | default 5432 }}/{{ .Values.database.dbName }}?schema=public&sslmode={{ .Values.database.sslMode | default "disable" }}"
             - name: CONFIG_PATH
               value: /app/config/config.yaml
             {{- with .Values.config.openai.existingSecret }}
