@@ -81,6 +81,8 @@ export const yamlSchema = z.object({
           port: z.number().int().positive().default(6379),
           password: z.string().optional(),
           db: z.number().int().min(0).max(15).default(0),
+          prefix: z.string().optional(),
+          username: z.string().optional(),
         })
         .default({ host: 'valkey', port: 6379, db: 0 }),
     })
@@ -88,7 +90,7 @@ export const yamlSchema = z.object({
       enabled: true,
       ttl: 3600,
       randomBucketSize: 10,
-      valkey: { host: 'valkey', port: 6379, db: 0 },
+      valkey: { host: 'valkey', port: 6379, db: 0, prefix: undefined, username: undefined },
     }),
 });
 

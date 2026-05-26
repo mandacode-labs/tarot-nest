@@ -59,6 +59,14 @@ spec:
             - name: VALKEY_PASSWORD
               value: {{ .Values.config.cache.valkey.password | quote }}
             {{- end }}
+            {{- if and (not .Values.valkey.enabled) .Values.config.cache.valkey.prefix }}
+            - name: VALKEY_PREFIX
+              value: {{ .Values.config.cache.valkey.prefix | quote }}
+            {{- end }}
+            {{- if and (not .Values.valkey.enabled) .Values.config.cache.valkey.username }}
+            - name: VALKEY_USERNAME
+              value: {{ .Values.config.cache.valkey.username | quote }}
+            {{- end }}
             {{- if .Values.valkey.enabled }}
             - name: VALKEY_HOST
               value: "{{ include "tarot-core.fullname" . }}-valkey"

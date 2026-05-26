@@ -50,6 +50,8 @@ config:
       port: 6379
       password: ""
       db: 0
+      prefix: ""
+      username: ""
 
 # Internal Valkey deployment (set enabled: false to use external Valkey)
 valkey:
