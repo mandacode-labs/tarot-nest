@@ -55,7 +55,13 @@ spec:
                   name: {{ . }}
                   key: {{ $openaiApiKeyKey }}
             {{- end }}
-            {{- if and (not .Values.valkey.enabled) .Values.config.cache.valkey.password }}
+            {{- if and (not .Values.valkey.enabled) .Values.secrets.valkey.existingSecret }}
+            - name: VALKEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secrets.valkey.existingSecret }}
+                  key: {{ .Values.secrets.valkey.existingSecretKey | default "valkey-password" }}
+            {{- else if and (not .Values.valkey.enabled) .Values.config.cache.valkey.password }}
             - name: VALKEY_PASSWORD
               value: {{ .Values.config.cache.valkey.password | quote }}
             {{- end }}
