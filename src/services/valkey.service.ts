@@ -24,13 +24,15 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
-    const { host, port, password, db } = this.cacheConfig.valkey;
+    const { host, port, password, db, prefix, username } = this.cacheConfig.valkey;
 
     this.client = new Redis({
       host,
       port,
       password: password || undefined,
       db,
+      keyPrefix: prefix || undefined,
+      username: username || undefined,
       lazyConnect: true,
       maxRetriesPerRequest: 3,
       retryStrategy(times) {

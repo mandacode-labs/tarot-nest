@@ -5,6 +5,8 @@ export function overrideWithEnv(config: YamlConfig): YamlConfig {
   const valkeyPassword = process.env.VALKEY_PASSWORD;
   const valkeyHost = process.env.VALKEY_HOST;
   const valkeyPort = process.env.VALKEY_PORT;
+  const valkeyPrefix = process.env.VALKEY_PREFIX;
+  const valkeyUsername = process.env.VALKEY_USERNAME;
 
   if (openaiApiKey) {
     config.openai.apiKey = openaiApiKey;
@@ -20,6 +22,14 @@ export function overrideWithEnv(config: YamlConfig): YamlConfig {
 
   if (valkeyPort) {
     config.cache.valkey.port = parseInt(valkeyPort, 10);
+  }
+
+  if (valkeyPrefix) {
+    config.cache.valkey.prefix = valkeyPrefix;
+  }
+
+  if (valkeyUsername) {
+    config.cache.valkey.username = valkeyUsername;
   }
 
   return config;
