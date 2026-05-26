@@ -1,7 +1,7 @@
 .PHONY: docker-build
 docker-build:
 	@echo "Building app image..."
-	docker build -f docker/app.Dockerfile -t tarot-core:latest .
+	docker build -f Dockerfile -t tarot-core:latest .
 
 .PHONY: helm-install
 helm-install:

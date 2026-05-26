@@ -43,7 +43,7 @@ jobs:
       # Images to test (REQUIRED)
       images: |
         [
-          {"dockerfile": "app.Dockerfile"}
+          {"dockerfile": "Dockerfile"}
         ]
       # Multiple images example:
       # images: |
@@ -52,7 +52,7 @@ jobs:
       #     {"dockerfile": "Dockerfile.alpine"}
       #   ]
 
-      base-path: "docker"
+      # base-path: ""
       # build-context: "."
       # platforms: "linux/amd64"
       # test-build-only: true
