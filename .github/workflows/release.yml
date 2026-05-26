@@ -28,7 +28,7 @@ jobs:
       # Images to build (REQUIRED)
       images: |
         [
-          {"name": "app", "dockerfile": "app.Dockerfile"}
+          {"name": "server", "dockerfile": "Dockerfile"}
         ]
       # Multiple images example:
       # images: |
@@ -47,7 +47,7 @@ jobs:
       # additional-tags: "latest,stable"
 
       # Build options
-      base-path: "docker"
+      # base-path: ""
       # build-context: "."
       platforms: "linux/amd64"
       # platforms: "linux/amd64,linux/arm64"
