@@ -24,7 +24,8 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
-    const { host, port, password, db, prefix, username } = this.cacheConfig.valkey;
+    const { host, port, password, db, prefix, username } =
+      this.cacheConfig.valkey;
 
     this.client = new Redis({
       host,
