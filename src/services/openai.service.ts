@@ -4,8 +4,8 @@ import OpenAI from 'openai';
 import { zodResponseFormat } from 'openai/helpers/zod';
 import type { ChatModel } from 'openai/resources';
 import type { Config } from 'src/config/config.schema';
-import type { ReadResponse } from 'src/schemas/service/read.schema';
-import { readResponseSchema } from 'src/schemas/service/read.schema';
+import type { LlmReadResponse } from 'src/schemas/service/read.schema';
+import { llmReadResponseSchema } from 'src/schemas/service/read.schema';
 import type { TarotCard } from 'src/services/tarot.service';
 
 interface TarotMessageRequest {
@@ -36,7 +36,9 @@ export class OpenAIService {
    * @param request TarotMessageRequest
    * @returns ReadResponse
    */
-  async getTarotMessage(request: TarotMessageRequest): Promise<ReadResponse> {
+  async getTarotMessage(
+    request: TarotMessageRequest,
+  ): Promise<LlmReadResponse> {
     const directionText = request.direction === 'upright' ? '정방향' : '역방향';
 
     const response = await this.openAI.chat.completions.parse({
@@ -56,7 +58,7 @@ export class OpenAIService {
           }),
         },
       ],
-      response_format: zodResponseFormat(readResponseSchema, 'ReadResponse'),
+      response_format: zodResponseFormat(llmReadResponseSchema, 'ReadResponse'),
     });
 
     if (!response.choices[0].message.parsed) {

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { OpenAIService } from './openai.service';
 import { ValkeyService } from './valkey.service';
-import { ReadResponse } from 'src/schemas/service/read.schema';
+import type { ReadResponse } from 'src/schemas/service/read.schema';
 import type { Config } from 'src/config/config.schema';
 
 export interface TarotCard {
@@ -103,11 +103,18 @@ export class TarotService {
     }
 
     const keywords = this.getRandomKeywords(4);
-    const result = await this.openAIService.getTarotMessage({
+    const llmResult = await this.openAIService.getTarotMessage({
       card,
       direction,
       keywords,
     });
+
+    const result: ReadResponse = {
+      title: card.name,
+      titleKR: card.nameKR,
+      keywords,
+      advice: llmResult.advice,
+    };
 
     if (this.valkeyService.isEnabled()) {
       await this.valkeyService.set(cacheKey, JSON.stringify(result));
