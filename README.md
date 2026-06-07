@@ -65,8 +65,8 @@ sequenceDiagram
         Cache-->>Service: Cached Result
     else Cache Miss
         Service->>AI: Chat Completion (with Zod schema)
-        AI-->>Service: {keywords, advice}
-        Service->>Service: Inject card.name / card.nameKR
+        AI-->>Service: {advice}
+        Service->>Service: Inject card.name / card.nameKR / keywords
         Service->>Cache: SET tarot:read:{card}:{dir}:{bucket}
     end
 

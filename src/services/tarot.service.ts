@@ -112,7 +112,7 @@ export class TarotService {
     const result: ReadResponse = {
       title: card.name,
       titleKR: card.nameKR,
-      keywords: llmResult.keywords,
+      keywords,
       advice: llmResult.advice,
     };
 

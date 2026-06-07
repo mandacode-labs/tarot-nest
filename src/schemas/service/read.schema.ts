@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const llmReadResponseSchema = z.object({
-  keywords: z.array(z.string()).length(4),
   advice: z.string().min(1),
 });
 
