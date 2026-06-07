@@ -1,5 +1,12 @@
 import { z } from 'zod';
 
+export const llmReadResponseSchema = z.object({
+  keywords: z.array(z.string()).length(4),
+  advice: z.string().min(1),
+});
+
+export type LlmReadResponse = z.infer<typeof llmReadResponseSchema>;
+
 export const readResponseSchema = z.object({
   title: z.string().min(1),
   titleKR: z.string().min(1),

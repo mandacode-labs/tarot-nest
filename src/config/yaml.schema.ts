@@ -37,10 +37,6 @@ export const yamlSchema = z.object({
         .string()
         .default(
           '주어지는 카드에 대하여 타로 메시지를 서술해줘.' +
-            '응답은 반드시 다음 JSON 형식을 따라야 해:' +
-            '{ title: string, titleKR: string, keywords: string[], advice: string }' +
-            'title은 카드의 영어 이름, titleKR은 카드의 한글 이름, ' +
-            'keywords는 4개의 키워드 배열, advice는 조언 메시지.' +
             commonSystemMessage,
         ),
     }),
@@ -90,7 +86,13 @@ export const yamlSchema = z.object({
       enabled: true,
       ttl: 3600,
       randomBucketSize: 10,
-      valkey: { host: 'valkey', port: 6379, db: 0, prefix: undefined, username: undefined },
+      valkey: {
+        host: 'valkey',
+        port: 6379,
+        db: 0,
+        prefix: undefined,
+        username: undefined,
+      },
     }),
 });
 
