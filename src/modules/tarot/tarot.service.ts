@@ -1,17 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { OpenAIService } from './openai.service';
-import { ValkeyService } from './valkey.service';
-import type { ReadResponse } from 'src/schemas/service/read.schema';
-import type { Config } from 'src/config/config.schema';
-
-export interface TarotCard {
-  id: string;
-  name: string;
-  nameKR: string;
-  type: 'major' | 'minor';
-  suit?: 'wands' | 'cups' | 'swords' | 'pentacles';
-}
+import { OpenAIService } from '../openai/openai.service';
+import { ValkeyService } from '../valkey/valkey.service';
+import type { ReadResponse } from './schemas/tarot-reading.schema';
+import type { Config } from '../../config/schema';
+import type { TarotCard, TarotDirection } from './tarot.interface';
 
 @Injectable()
 export class TarotService {
@@ -64,7 +57,7 @@ export class TarotService {
     return this.allCards[idx];
   }
 
-  private getRandomDirection(): 'upright' | 'reversed' {
+  private getRandomDirection(): TarotDirection {
     return Math.random() < 0.5 ? 'upright' : 'reversed';
   }
 
@@ -75,7 +68,7 @@ export class TarotService {
 
   private buildCacheKey(
     card: TarotCard,
-    direction: 'upright' | 'reversed',
+    direction: TarotDirection,
     bucket: number,
   ): string {
     return `tarot:read:${card.id}:${direction}:${bucket}`;
@@ -85,10 +78,6 @@ export class TarotService {
     return Math.floor(Math.random() * this.cacheConfig.randomBucketSize) + 1;
   }
 
-  /**
-   * Read tarot message
-   * @returns ReadResponse
-   */
   async readTarot(): Promise<ReadResponse> {
     const card = this.getRandomCard();
     const direction = this.getRandomDirection();

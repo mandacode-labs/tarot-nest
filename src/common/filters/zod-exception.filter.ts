@@ -2,25 +2,26 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
-  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { ResponseError } from 'src/interfaces/response.interface';
+import { ResponseError } from '../interfaces/response.interface';
+import { ZodError } from 'zod';
 
-@Catch(HttpException)
-export class HttpExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost) {
+@Catch(ZodError)
+export class ZodExceptionFilter implements ExceptionFilter {
+  catch(exception: ZodError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const status = exception.getStatus();
-    const message = exception.message;
-    const error = exception.name;
+    const status = HttpStatus.BAD_REQUEST;
+    const message = exception.issues.map((error) => error.message).join(', ');
+    const errors = 'Validation Error';
 
     const errorResponse: ResponseError = {
       message: message,
       data: {
-        error: error,
+        error: errors,
         path: request.url,
         timestamp: new Date().toISOString(),
       },

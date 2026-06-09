@@ -1,12 +1,10 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
 
-@Controller('/')
+@Controller()
 export class AppController {
-  constructor() {}
-
-  @Get('/health')
+  @Get('health')
   @HttpCode(200)
-  getHello(): string {
+  getHealth(): string {
     return 'OK';
   }
 }
