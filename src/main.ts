@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import type { Config } from './config/config.schema';
-import { HttpExceptionFilter } from './filters/http_exception.filter';
-import { ZodExceptionFilter } from './filters/zod_exception.filter';
+import type { Config } from './config/schema';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { ZodExceptionFilter } from './common/filters/zod-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,9 +15,8 @@ async function bootstrap() {
     credentials: config.corsCredentials,
   });
 
-  await app.listen(config.port);
-
-  // Implement global exception filter
   app.useGlobalFilters(new HttpExceptionFilter(), new ZodExceptionFilter());
+
+  await app.listen(config.port);
 }
 bootstrap().catch(console.error);

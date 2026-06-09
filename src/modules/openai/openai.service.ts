@@ -1,23 +1,18 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
 import { zodResponseFormat } from 'openai/helpers/zod';
-import type { ChatModel } from 'openai/resources';
-import type { Config } from 'src/config/config.schema';
-import type { LlmReadResponse } from 'src/schemas/service/read.schema';
-import { llmReadResponseSchema } from 'src/schemas/service/read.schema';
-import type { TarotCard } from 'src/services/tarot.service';
-
-interface TarotMessageRequest {
-  card: TarotCard;
-  direction: 'upright' | 'reversed';
-  keywords: string[];
-}
+import type { Config } from '../../config/schema';
+import type { LlmReadResponse } from '../tarot/schemas/tarot-reading.schema';
+import { llmReadResponseSchema } from '../tarot/schemas/tarot-reading.schema';
+import type { TarotMessageRequest } from '../tarot/tarot.interface';
 
 @Injectable()
 export class OpenAIService {
-  private chatModel: ChatModel = 'gpt-4o-mini';
-
   private openAI!: OpenAI;
   private openAIConfig: Config['openai'];
 
@@ -26,23 +21,30 @@ export class OpenAIService {
   }
 
   onModuleInit() {
+    if (!this.openAIConfig.apiKey) {
+      Logger.warn(
+        'OPENAI_API_KEY is not configured. Tarot reading will fail.',
+        OpenAIService.name,
+      );
+      return;
+    }
+
     this.openAI = new OpenAI({
       apiKey: this.openAIConfig.apiKey,
     });
   }
 
-  /**
-   * Get tarot message
-   * @param request TarotMessageRequest
-   * @returns ReadResponse
-   */
   async getTarotMessage(
     request: TarotMessageRequest,
   ): Promise<LlmReadResponse> {
-    const directionText = request.direction === 'upright' ? '정방향' : '역방향';
+    if (!this.openAI) {
+      throw new InternalServerErrorException(
+        'OpenAI client is not initialized. Check OPENAI_API_KEY configuration.',
+      );
+    }
 
     const response = await this.openAI.chat.completions.parse({
-      model: this.chatModel,
+      model: this.openAIConfig.chatModel,
       messages: [
         {
           role: 'system',
@@ -53,7 +55,7 @@ export class OpenAIService {
           content: JSON.stringify({
             card: request.card.name,
             cardKR: request.card.nameKR,
-            direction: directionText,
+            direction: request.direction,
             keywords: request.keywords,
           }),
         },

@@ -1,0 +1,59 @@
+name: Feature Request
+description: Suggest an idea or improvement
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an idea!
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Problem / Motivation
+      description: What problem does this feature solve? What use case does it address?
+      placeholder: I'm always frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: What would you like to see implemented?
+      placeholder: A clear description of what you want to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: What specific requirements must this feature meet to be considered complete?
+      placeholder: |
+        - [ ] Endpoint accepts X parameter
+        - [ ] Returns correct response format
+        - [ ] Unit tests cover new logic
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered any alternative solutions or workarounds?
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or references here.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have searched for existing feature requests before filing this one
+          required: true

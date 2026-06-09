@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common';
-import { ValkeyService } from 'src/services/valkey.service';
+import { ValkeyService } from './valkey.service';
 
 @Global()
 @Module({

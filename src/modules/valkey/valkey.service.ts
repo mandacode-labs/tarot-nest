@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
-import type { Config } from 'src/config/config.schema';
+import type { Config } from '../../config/schema';
 
 @Injectable()
 export class ValkeyService implements OnModuleInit, OnModuleDestroy {
@@ -18,7 +18,7 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
     this.cacheConfig = this.config.get<Config['cache']>('cache');
   }
 
-  onModuleInit() {
+  async onModuleInit() {
     if (!this.cacheConfig.enabled) {
       this.logger.log('Cache is disabled');
       return;
@@ -52,11 +52,13 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
       this.logger.log(`Connected to Valkey at ${host}:${port}`);
     });
 
-    this.client.connect().catch((err: unknown) => {
+    try {
+      await this.client.connect();
+    } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       this.logger.error(`Failed to connect to Valkey: ${message}`);
       this.client = null;
-    });
+    }
   }
 
   async onModuleDestroy() {
@@ -77,7 +79,7 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
 
     try {
       return await this.client.get(key);
-    } catch (err) {
+    } catch (err: unknown) {
       this.logger.warn(
         `Cache GET failed for key ${key}: ${(err as Error).message}`,
       );
@@ -94,7 +96,7 @@ export class ValkeyService implements OnModuleInit, OnModuleDestroy {
 
     try {
       await this.client.set(key, value, 'EX', ttl);
-    } catch (err) {
+    } catch (err: unknown) {
       this.logger.warn(
         `Cache SET failed for key ${key}: ${(err as Error).message}`,
       );

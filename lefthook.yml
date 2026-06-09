@@ -1,0 +1,16 @@
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: '*.{ts,js}'
+      run: npx eslint --fix {staged_files}
+    prettier:
+      glob: '*.{ts,js,json,yml,yaml}'
+      run: npx prettier --write {staged_files}
+    typecheck:
+      run: npx tsc -p tsconfig.typecheck.json --noEmit
+
+pre-push:
+  commands:
+    test:
+      run: npm run test
